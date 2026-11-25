@@ -1,0 +1,16 @@
+name: Stalker
+version: 1.0.0
+main: dev.stalker.StalkerPlugin
+api-version: '26.1'
+description: Silent night-time horror. Something is watching.
+commands:
+  stalker:
+    description: Admin controls (reload / test)
+    usage: /stalker <reload|test <footsteps|ambient|figure|torches>>
+    permission: stalker.admin
+permissions:
+  stalker.admin:
+    default: op
+  stalker.immune:
+    description: Never gets haunted
+    default: false

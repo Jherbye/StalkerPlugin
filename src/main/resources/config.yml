@@ -1,0 +1,102 @@
+# ───────────────────────── Stalker config ─────────────────────────
+# The plugin never sends chat messages, titles or action bars to players.
+# Everything is sound + client-side visuals only.
+
+enabled: true
+
+# Worlds where it can happen. Empty list = every normal (overworld-type) world.
+worlds: []
+
+# Only haunt at night. Minecraft time: night is roughly 13000 -> 23000.
+night-only: true
+night-start: 13000
+night-end: 23000
+
+# Game modes that are never haunted.
+ignore-gamemodes: [CREATIVE, SPECTATOR]
+
+# Players with this permission are never haunted.
+immune-permission: "stalker.immune"
+
+# How often (ticks) the plugin checks players. 20 ticks = 1 second.
+check-interval-ticks: 40
+
+# After an event roll, wait a random time between these (seconds) for the next roll.
+cooldown-seconds:
+  min: 90
+  max: 300
+
+# First roll after a player joins / night starts (seconds).
+first-roll-delay-seconds:
+  min: 30
+  max: 120
+
+# Chance pool. Each roll picks one entry by weight. "none" = nothing happens.
+# Set a weight to 0 to disable an event completely.
+weights:
+  none: 35
+  footsteps: 25
+  ambient: 25
+  figure: 10
+  torches: 5
+
+events:
+  # Footsteps from something that isn't there. Uses the step sound of the
+  # block the "walker" is standing on, so it fits the terrain.
+  footsteps:
+    steps: { min: 4, max: 12 }
+    start-distance: { min: 8.0, max: 16.0 }   # blocks away at the first step
+    stop-distance: 3.0                        # how close it gets
+    approach-per-step: 0.8                    # 0 = stays at same distance
+    step-interval-ticks: 9
+    behind-player: true                       # spawn behind where you're looking
+    behind-spread-degrees: 50
+    volume: { min: 0.5, max: 0.9 }
+    pitch: { min: 0.8, max: 1.0 }
+    stop-if-player-turns: false
+
+  # Creepy one-off sounds from a random direction.
+  # Format: "sound.key:weight"  (vanilla sound keys, or namespace:key)
+  ambient:
+    sounds:
+      - "ambient.cave:30"
+      - "entity.enderman.stare:6"
+      - "entity.enderman.ambient:6"
+      - "block.wooden_door.open:8"
+      - "block.wooden_door.close:8"
+      - "block.chest.open:4"
+      - "block.chest.close:4"
+      - "entity.zombie.ambient:5"
+      - "entity.skeleton.ambient:5"
+      - "block.stone_button.click_on:3"
+      - "entity.generic.explode:1"
+      - "block.sculk_sensor.clicking:6"
+      - "entity.warden.nearby_close:2"
+      - "entity.player.breath:4"
+    count: { min: 1, max: 2 }
+    distance: { min: 6.0, max: 20.0 }
+    volume: { min: 0.4, max: 1.0 }
+    pitch: { min: 0.6, max: 1.0 }
+    gap-ticks: { min: 20, max: 100 }          # delay between sounds if count > 1
+
+  # A figure that only this player can see, far away, that isn't real.
+  figure:
+    distance: { min: 22.0, max: 40.0 }
+    angle-degrees: { min: 25, max: 85 }       # off to the side of where you look
+    max-seconds: 25
+    vanish-distance: 12.0                     # disappears if you get this close
+    vanish-on-look: true
+    look-angle-degrees: 10                    # how directly you must look at it
+    look-ticks: 12                            # ...for this long, then it's gone
+    face-player: true
+    require-open-sky-nearby: false
+
+  # Nearby torches look like redstone torches (client-side only, nothing changes
+  # in the world). They go back to normal after a while.
+  torches:
+    radius: 12
+    amount: { min: 2, max: 6 }
+    include-soul-torches: true
+    redstone-lit: false                       # false = unlit redstone torch (looks "dead")
+    stagger-ticks: 10                         # delay between each torch changing
+    revert-seconds: { min: 8, max: 30 }
